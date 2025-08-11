@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SecureVote</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <i class="fas fa-vote-yea"></i> SecureVote
+      </a>
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#security">Security</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+<a href="results.html" class="live-results-btn">Live Election Results</a>
+
+      <!-- Login/Profile Area -->
+      <div id="loginArea" style="display: flex; align-items: center; gap: 10px;">
+  <button id="loginBtn" style="
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    background: linear-gradient(90deg, #4CAF50, #45a049);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.3s ease;
+  ">
+    Login
+  </button>
+</div>
+
+
+
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <h1>Your Voice, Your Vote, Your Future</h1>
+      <p>Experience the most secure, transparent, and accessible digital voting platform. Built with cutting-edge blockchain technology to ensure every vote counts.</p>
+      <div class="cta-buttons">
+        <a href="login.html" class="btn-primary">
+          <i class="fas fa-vote-yea"></i> Start Voting
+        </a>
+        <a href="#features" class="btn-secondary">
+          <i class="fas fa-info-circle"></i> Learn More
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <div class="container">
+      <h2 class="section-title">Why Choose SecureVote?</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+          <h3>Military-Grade Security</h3>
+          <p>End-to-end encryption with blockchain verification ensures your vote is protected and tamper-proof.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-eye"></i></div>
+          <h3>Complete Transparency</h3>
+          <p>Real-time results with publicly auditable blockchain records. Every vote is verifiable and traceable.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
+          <h3>Accessible Anywhere</h3>
+          <p>Vote from any device, anywhere in the world. Mobile-optimized interface with offline capability.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-clock"></i></div>
+          <h3>Instant Results</h3>
+          <p>No more waiting days for results. Get real-time updates as votes are cast and verified.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-users"></i></div>
+          <h3>Voter Privacy</h3>
+          <p>Anonymous voting with identity verification. Your privacy is protected while maintaining election integrity.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+          <h3>Advanced Analytics</h3>
+          <p>Comprehensive reporting and analytics tools for election administrators and stakeholders.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats" id="about">
+    <div class="container">
+      <h2 class="section-title" style="color: white;">Trusted by Millions</h2>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <h3 id="votesCount">2.5M+</h3>
+          <p>Votes Cast Securely</p>
+        </div>
+        <div class="stat-item">
+          <h3 id="electionsCount">500+</h3>
+          <p>Elections Conducted</p>
+        </div>
+        <div class="stat-item">
+          <h3 id="countriesCount">45+</h3>
+          <p>Countries Served</p>
+        </div>
+        <div class="stat-item">
+          <h3 id="uptimeCount">99.9%</h3>
+          <p>System Uptime</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="features" id="contact">
+    <div class="container">
+      <h2 class="section-title">Contact Us</h2>
+      <p>Email: support@securevote.com | Phone: +1 (555) 123-4567</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>SecureVote</h3>
+        <p>The future of democratic participation through secure, transparent, and accessible digital voting.</p>
+        <div style="margin-top: 20px;">
+          <i class="fab fa-twitter"></i>
+          <i class="fab fa-facebook"></i>
+          <i class="fab fa-linkedin"></i>
+          <i class="fab fa-github"></i>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="voting.html">How It Works</a></li>
+          <li><a href="#security">Security Features</a></li>
+          <li><a href="results.html">View Results</a></li>
+          <li><a href="admin.html">Admin Portal</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Legal</h3>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Election Compliance</a></li>
+          <li><a href="#">Data Protection</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Contact</h3>
+        <ul>
+          <li><i class="fas fa-envelope"></i> support@securevote.com</li>
+          <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+          <li><i class="fas fa-map-marker-alt"></i> 123 Democracy Ave, Digital City</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 SecureVote. All rights reserved. | Empowering Democracy Through Technology</p>
+    </div>
+  </footer>
+
+  <!-- Security Badge -->
+  <div class="security-badge" title="Secured by Blockchain">
+    <i class="fas fa-lock"></i>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

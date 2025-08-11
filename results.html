@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SecureVote - Election Results</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 0;
+    }
+    .header {
+      background: rgba(31, 41, 55, 0.95);
+      padding: 20px 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #ffffff;
+      text-decoration: none;
+    }
+    .logo i {
+      margin-right: 10px;
+      color: #10b981;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .results-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .results-header h1 {
+      font-size: 2.5rem;
+      color: #1e3a8a;
+      margin-bottom: 10px;
+    }
+    .results-header p {
+      color: #6b7280;
+      font-size: 1rem;
+    }
+    .result-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      transition: 0.3s;
+    }
+    .result-card:hover {
+      transform: scale(1.01);
+    }
+    .candidate-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    .candidate-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+    .candidate-name {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #1f2937;
+    }
+    .candidate-party {
+      color: #6b7280;
+      font-size: 0.9rem;
+    }
+    .progress-bar-bg {
+      background: #e5e7eb;
+      border-radius: 8px;
+      overflow: hidden;
+      height: 20px;
+      margin-top: 10px;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      text-align: right;
+      color: white;
+      font-size: 0.8rem;
+      line-height: 20px;
+      padding-right: 10px;
+    }
+    .stats-summary {
+      text-align: center;
+      margin: 50px 0 30px 0;
+      font-size: 1.1rem;
+      color: #374151;
+    }
+    .back-btn {
+      display: inline-block;
+      padding: 12px 25px;
+      background: #6366f1;
+      color: white;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+    .back-btn:hover {
+      background: #4f46e5;
+    }
+    .back-container {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    canvas {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      margin-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <i class="fas fa-vote-yea"></i> SecureVote
+      </a>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="results-header">
+      <h1>📊 Election Results</h1>
+      <p>Live results of Student Council Election 2025</p>
+    </div>
+
+    <!-- Chart -->
+    <canvas id="resultsChart"></canvas>
+
+    <!-- Results Container -->
+    <div id="resultsContainer"></div>
+
+    <!-- Summary -->
+    <div class="stats-summary" id="statsSummary">
+      Loading stats...
+    </div>
+
+    <!-- Back Button -->
+    <div class="back-container">
+      <a href="admin.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Admin Panel</a>
+    </div>
+  </div>
+
+  <script>
+    let chartInstance = null;
+
+    async function fetchResults() {
+      try {
+        // Using the separate /api/results route
+        const res = await fetch("http://localhost:5000/api/results");
+        if (!res.ok) throw new Error("Failed to fetch results");
+        const candidates = await res.json();
+
+        renderResults(candidates);
+        renderChart(candidates);
+      } catch (err) {
+        console.error(err);
+        document.getElementById("resultsContainer").innerHTML = `<p style="color:red;text-align:center;">Error loading results.</p>`;
+      }
+    }
+
+    function renderResults(candidates) {
+      const container = document.getElementById("resultsContainer");
+      container.innerHTML = "";
+
+      const totalVotes = candidates.reduce((sum, c) => sum + (c.votes || 0), 0);
+
+      candidates.forEach((c, index) => {
+        const percentage = totalVotes ? ((c.votes / totalVotes) * 100).toFixed(1) : 0;
+        const initials = c.name.split(" ").map(n => n[0]).join("");
+        const colors = ["#6366f1", "#0ea5e9", "#10b981", "#f59e0b", "#ef4444"];
+        const color = colors[index % colors.length];
+
+        container.innerHTML += `
+          <div class="result-card">
+            <div class="candidate-header">
+              <div class="candidate-avatar" style="background:${color};">${initials}</div>
+              <div>
+                <div class="candidate-name">${c.name}</div>
+                <div class="candidate-party">${c.party || "Independent"}</div>
+              </div>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" style="width:${percentage}%; background:${color};">
+                ${percentage}%
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      document.getElementById("statsSummary").innerHTML = `
+        Total Votes: <strong>${totalVotes}</strong> &nbsp; | &nbsp; Last Updated: <strong>${new Date().toLocaleTimeString()}</strong>
+      `;
+    }
+
+    function renderChart(candidates) {
+      const ctx = document.getElementById("resultsChart").getContext("2d");
+      const labels = candidates.map(c => c.name);
+      const votes = candidates.map(c => c.votes);
+      const colors = ["#6366f1", "#0ea5e9", "#10b981", "#f59e0b", "#ef4444"];
+
+      if (chartInstance) {
+        chartInstance.data.labels = labels;
+        chartInstance.data.datasets[0].data = votes;
+        chartInstance.update();
+        return;
+      }
+
+      chartInstance = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels,
+          datasets: [{
+            label: "Votes",
+            data: votes,
+            backgroundColor: colors,
+            borderRadius: 8
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+            title: {
+              display: true,
+              text: "Live Vote Count"
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              precision: 0
+            }
+          }
+        }
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      fetchResults();
+      setInterval(fetchResults, 5000); // Refresh every 5 seconds
+    });
+  </script>
+</body>
+</html>
