@@ -4,6 +4,12 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bcrypt = require('bcrypt');           // Import bcrypt for hashing passwords
 require('dotenv').config();
+app.use(express.static(path.join(__dirname)));
+
+// Route all other requests to index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 // DB connection
 const mongoURI = process.env.MONGO_URI || "mongodb://localhost:27017/securevote";
@@ -349,3 +355,4 @@ app.get('/api/check-vote-status/:voterId', async (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
