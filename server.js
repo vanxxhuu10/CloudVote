@@ -6,12 +6,12 @@ const bcrypt = require('bcrypt');
 const path = require('path');
 require('dotenv').config();
 
-const app = express();
+const app = express();  // Declare app only once
 
 app.use(cors());
 app.use(express.json());
 
-// Serve static files from the root directory (where index.html is)
+// Serve static files from root (where index.html is)
 app.use(express.static(path.join(__dirname)));
 
 // For any route, serve index.html
@@ -362,5 +362,6 @@ app.get('/api/check-vote-status/:voterId', async (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
 
 
