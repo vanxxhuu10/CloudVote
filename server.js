@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 const path = require('path');
 require('dotenv').config();
 
-const app = express();  // Declare app only once
+const app = express();  // ✅ Only once
 
 app.use(cors());
 app.use(express.json());
@@ -18,6 +18,7 @@ app.use(express.static(path.join(__dirname)));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
+
 // DB connection
 const mongoURI = process.env.MONGO_URI || "mongodb://localhost:27017/securevote";
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -29,15 +30,10 @@ const Admin = require('./admin');           // Adjust path if needed
 const User = require('./user');             // Adjust path if needed
 const Candidate = require('./candidate');   // Adjust path if needed
 
-const app = express();
-app.use(cors());
-app.use(express.json());
-
 // Test route
 app.get("/", (req, res) => {
   res.send("✅ SecureVote backend is live!");
 });
-
 // Insert dummy data once to create collections (REMOVE AFTER FIRST RUN)
 async function insertDummyData() {
   const admins = await Admin.find({});
@@ -362,6 +358,7 @@ app.get('/api/check-vote-status/:voterId', async (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
 
 
 
